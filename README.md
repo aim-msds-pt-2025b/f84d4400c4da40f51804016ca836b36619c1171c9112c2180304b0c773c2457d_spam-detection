@@ -6,6 +6,14 @@ The original repository explores contains deployment for a simple app with a mod
 
 The data can be obtained from Kaggle [here](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset), but is also released by UCI [here](https://archive.ics.uci.edu/dataset/228/sms+spam+collection). 
 
+### Environment Setup
+
+To set up the `uv` environment, I did the ff:
+* `uv init`
+* `uv add numpy pandas scikit-learn seaborn nltk requests`
+Since I've committed the `uv.lock` file, users can simply clone the repository and then run `uv sync`. We can also dump the package requirements in the `pip` format by running `uv export --format requirements-txt > requirements.txt`. I think `uv sync` is more the better choice though. 
+
+
 ### Pre-Commit Hooks
 
 I've chosen to use Ruff for both linting and formatting. It's built in Rust by the authors of the `uv` project and shares 99% drop-in compatibility with Black, with some exceptions I don't have strong feelings about. This means I can use a single tool in place of two (a linter + a formatter). On the whole, this should improve code quality. 
