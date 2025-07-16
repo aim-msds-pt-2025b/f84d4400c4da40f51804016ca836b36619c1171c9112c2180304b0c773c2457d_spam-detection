@@ -6,6 +6,32 @@ The original repository explores contains deployment for a simple app with a mod
 
 The data can be obtained from Kaggle [here](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset), but is also released by UCI [here](https://archive.ics.uci.edu/dataset/228/sms+spam+collection). 
 
+### Folder Structure
+
+Here's the folder structure we'll target:
+
+```
+spam-detection
+├── uv.lock
+├── pyproject.toml
+├── README.md
+├── data
+│   ├── raw
+│   │   └── spam.csv
+│   └── processed
+├── models
+│   └── trained.pkl
+├── notebooks
+│   └── spam-detection.ipynb
+├── outputs
+├── src
+│   ├── __init__.py
+│   ├── preprocessing.py
+...
+```
+
+I've added the dataset to the repo since its a small file. I don't think separating it into raw and processed is absolutely necessary given that this dataset only involves a single file, but I've added that as toy model practice. 
+
 ### Environment Setup
 
 To set up the `uv` environment, I did the ff:
