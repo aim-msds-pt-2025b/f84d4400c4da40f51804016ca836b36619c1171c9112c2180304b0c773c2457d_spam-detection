@@ -54,6 +54,22 @@ I've also added a `gitleaks` pre-commit check for ensuring that secrets aren't c
 
 I'm not quite ready to add the static type checker `mypy` though. I think that'll require too many code changes in the short run. Perhaps another time. 
 
+### Inferencing
+
+There are two options for inferencing: the CLI and the deployment. The CLI expects a file path as an input, with each line corresponding to a message. The script will print the outputs unless a path is passed to the output option. Use `-h` to view a help message. The deployment creates a server with a REST API interface using `flask`. I've not rebuilt the image, but the old one can be found [here](https://hub.docker.com/r/doyoung04/spam-detection/). Creating a container with this Docker image will start the server automatically. 
+
+#### REST API Docs
+- URL
+    /api/v1/predict
+- Method: POST
+- Data Params
+    - message=[str]
+- Success Response
+    Code: 200
+    Content: `"ham\n"`
+- Sample Call
+    `curl -X POST -d "message=I'm on the way home, be there in fifteen." http://127.0.0.1:5000/api/v1/predict`
+
 ### Tests
 
 I've added tests using the `pytest` framework. So far, that includes tests for the app (REST  API) and for the data preprocessing (cleaning messages and loading data). I'm not sure how one would write tests for the model training itself though. 
