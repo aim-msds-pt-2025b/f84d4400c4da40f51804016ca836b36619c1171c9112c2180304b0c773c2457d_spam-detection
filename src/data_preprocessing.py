@@ -15,7 +15,11 @@ def load_spam_data() -> pd.DataFrame:
     Returns:
     pd.DataFrame: The loaded dataset as a pandas DataFrame.
     """
-    return pd.read_csv("data/raw/spam.csv", encoding="latin-1")
+    data = pd.read_csv("data/raw/spam.csv", encoding="latin-1")
+    data = data.dropna(how="any", axis=1)
+    data.columns = ["target", "message"]
+    data.to_csv("data/processed/spam.csv", index=False)
+    return data
 
 
 def clean_message(text: str) -> str:
@@ -46,8 +50,6 @@ def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
     Returns:
     DataFrame: The preprocessed dataset with cleaned text messages.
     """
-    data = data.dropna(how="any", axis=1)
-    data.columns = ["target", "message"]
     data.loc[:, "message"] = data["message"].apply(clean_message)
     # TODO: Dump preprocessed data to a file, needs to adapt to file name
     return data
