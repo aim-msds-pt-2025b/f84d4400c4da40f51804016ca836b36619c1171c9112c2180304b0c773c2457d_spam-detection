@@ -2,7 +2,9 @@
 
 This repository explores improving the [spam-detection](https://github.com/young-daniel/spam-detection) repository for MLOps and production workflows. 
 
-The original repository explores contains deployment for a simple app with a model built for classifying spam messages . 
+The original repository explores contains deployment for a simple app with a model built for classifying spam messages.
+
+I've opted to leave the output of the notebook in because I've also done parameter tuning and model selection as well. The results are presented in there. 
 
 The data can be obtained from Kaggle [here](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset), but is also released by UCI [here](https://archive.ics.uci.edu/dataset/228/sms+spam+collection). 
 
@@ -33,7 +35,7 @@ spam-detection
 ...
 ```
 
-I've added the dataset to the repo since its a small file. I don't think separating it into raw and processed is absolutely necessary given that this dataset only involves a single file, but I've added that as toy model practice. 
+I've added the dataset to the repo since its a small file. I've separated the data into raw and processed folders. I think this is a bit of overkill for this project because of there being only one small file (as opposed to many files), but nevertheless this should make it easier to identify which file is relevant. Future changes should include writing the cleaned/processed dataset with more granularity/control.
 
 I've also added a tests directory for the tests. There is an option to have the tests as subfolders under `src` instead, but I chose tests separate from application code instead. 
 
