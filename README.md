@@ -62,3 +62,4 @@ I've added tests using the `pytest` framework. So far, that includes tests for t
 
 The project structure and the tests felt a bit sticky: I ended up having to set a change to the pythonpath to include the root directory (`spam-detection` or such) of the repository when running the tests (see the pytest config in `pyproject.toml`). I think I need to study the typical pytest structure a bit more and allow that to inform the choices made for project structure. I'm also not sure what the contents of some of the folders are meant to be, possibly because this project is a bit too simple to require more complexity. 
 
+I've used linters and formatters in some ways before, although Ruff seems to change the game enough that it can be used as a pre-commit now. I've also attempted to create a Ruff action that runs automatically within Github whenever a PR is created. That's new to me, so I'm still figuring out how to get things to work the way I want. 
