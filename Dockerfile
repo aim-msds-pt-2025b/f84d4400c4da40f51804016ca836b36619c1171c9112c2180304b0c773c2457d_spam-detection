@@ -3,8 +3,7 @@ FROM python:alpine
 WORKDIR /app
 
 COPY docker_requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-RUN python3 -m nltk.downloader stopwords
+RUN pip install --no-cache-dir -r requirements.txt && python3 -m nltk.downloader stopwords
 
 COPY src/app.py /app/
 COPY src/preprocessing.py /app/src
