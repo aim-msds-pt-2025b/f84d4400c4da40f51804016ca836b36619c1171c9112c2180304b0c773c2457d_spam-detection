@@ -1,11 +1,12 @@
+---
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.0
     hooks:
       - id: ruff-check
-        args: [ --fix ]
+        args: [--fix]
       - id: ruff-format
-        # args: [ --fix ]
+      # args: [ --fix ]
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.24.2
     hooks:
@@ -19,3 +20,7 @@ repos:
     rev: v2.12.0
     hooks:
       - id: hadolint-docker
+  - repo: https://github.com/adrienvengrge/yamllint.git
+    rev: v1.29.0
+    hooks:
+      - id: yamllint
