@@ -54,6 +54,12 @@ I've also added a `gitleaks` pre-commit check for ensuring that secrets aren't c
 
 I'm not quite ready to add the static type checker `mypy` though. I think that'll require too many code changes in the short run. Perhaps another time. 
 
+### Docker Setup
+
+I made an initial Docker image that runs the pipeline as built before, with changes to the pipeline to follow. I've followed the examples provided in `uv` documentationi for how to build the Docker images so as to minimize the changes. Instead of installing `uv` directly and then syncing to the `uv.lock` file, we copy the `uv` bbinaries from `uv`'s official distroless image releases (with the version pinned to the one we're using). Similarly, we do not copy the `uv.lock` file into the container, choosing instead to mount the `uv.lock` and install dependencies from it wihtout copying it into the Docker image itself. Note also the use of `--locked` with the `uv sync` command, which tells `uv` not to make any changes to the set of packages to be installed, improving reproducibility. Our approach should also minimiize the changes made between versions, improving Docker build times and reducing size requirements. 
+
+We should note that this image requires the `data/`, `models/` and `outputs/` directories to be mounted. We expect changes to this requirement as changes are made to the pipeline.
+
 ### Inferencing
 
 There are two options for inferencing: the CLI and the deployment. The CLI expects a file path as an input, with each line corresponding to a message. The script will print the outputs unless a path is passed to the output option. Use `-h` to view a help message. The deployment creates a server with a REST API interface using `flask`. I've not rebuilt the image, but the old one can be found [here](https://hub.docker.com/r/doyoung04/spam-detection/). Creating a container with this Docker image will start the server automatically. 
