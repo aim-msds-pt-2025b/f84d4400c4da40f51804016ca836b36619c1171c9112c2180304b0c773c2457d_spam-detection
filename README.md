@@ -39,6 +39,8 @@ I've added the dataset to the repo since its a small file. I've separated the da
 
 I've also added a tests directory for the tests. There is an option to have the tests as subfolders under `src` instead, but I chose tests separate from application code instead. 
 
+I've addded a deployments directory to organize the Dockerfiles and deployments. An alternate approach would be to name the Dockerfiles differently, e.g. `inferencing.Dockerfile`. This approach keeps things a little cleaner, we can indicate the root directory as the build directory in place of identifying the specific Dockerfile to build with `-f`.  
+
 ### Environment Setup
 
 To set up the `uv` environment, I did the ff:
@@ -54,7 +56,19 @@ I've also added a `gitleaks` pre-commit check for ensuring that secrets aren't c
 
 I'm not quite ready to add the static type checker `mypy` though. I think that'll require too many code changes in the short run. Perhaps another time. 
 
+I've added hadolint for Dockerfiles and yamllint for YAML files as pre-commits. For yamllint I'v relazed the 80 character line limit to 120 because the default docker-compose YAML for Airflow uses more than 80 characters in several lines. Together, these two linters will help ensure code quality by highlighting common issues and encouraging best practices. 
+
 ### Docker Setup
+
+I have previously had an installation of Docker on my systems, but installing Docker is relatively simple now on both Linux and Windows. 
+
+On Linux, 
+* `apt-get install docker-desktop` 
+
+On Windows:
+* We start by installing Windows Subsystem Linux (WSL).
+  * From a terminal (such as PowerShell or through a wrapper like Windows Terminal), do `wsl --install`. 
+* `winget install docker.dockerdesktop`
 
 I made an initial Docker image that runs the pipeline as built before, with changes to the pipeline to follow. I've followed the examples provided in `uv` documentationi for how to build the Docker images so as to minimize the changes. Instead of installing `uv` directly and then syncing to the `uv.lock` file, we copy the `uv` bbinaries from `uv`'s official distroless image releases (with the version pinned to the one we're using). Similarly, we do not copy the `uv.lock` file into the container, choosing instead to mount the `uv.lock` and install dependencies from it wihtout copying it into the Docker image itself. Note also the use of `--locked` with the `uv sync` command, which tells `uv` not to make any changes to the set of packages to be installed, improving reproducibility. Our approach should also minimiize the changes made between versions, improving Docker build times and reducing size requirements. 
 
