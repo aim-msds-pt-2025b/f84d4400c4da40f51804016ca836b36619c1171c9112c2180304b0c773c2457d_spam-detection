@@ -38,6 +38,12 @@ def train_pipeline(data: pd.DataFrame, **kwargs) -> dict:
     return metrics
 
 
+def train_task() -> dict:
+    """Handsfree version, created to verify Airflow image works"""
+    data = load_spam_data()
+    return train_pipeline(data)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run spam detection training pipeline")
     parser.add_argument(

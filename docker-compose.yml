@@ -14,6 +14,9 @@ x-airflow-common:
     - ./airflow/dags:/opt/airflow/dags
     - ./src:/opt/airflow/src
     - ./data:/opt/airflow/data
+    - ./outputs:/opt/airflow/outputs
+    - ./models:/opt/airflow/models
+    - ./reports:/opt/airflow/reports
   user: "${AIRFLOW_UID:-50000}:0"
 
 services:
