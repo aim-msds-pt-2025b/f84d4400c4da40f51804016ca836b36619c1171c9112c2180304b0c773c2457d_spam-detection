@@ -20,7 +20,7 @@ def encode_labels(data: pd.DataFrame) -> np.ndarray:
     return label_encoder.fit_transform(data.target)
 
 
-def encode_features(data: pd.DataFrame) -> scipy.sparse.csr.csr_matrix:
+def encode_features(data: pd.DataFrame, **kwargs) -> scipy.sparse.csr.csr_matrix:
     """
     Encodes the text features in the dataset using TF-IDF.
 
@@ -30,9 +30,33 @@ def encode_features(data: pd.DataFrame) -> scipy.sparse.csr.csr_matrix:
     Returns:
     scipy.sparse.csr.csr_matrix: TF-IDF encoded text features.
     """
+    output_path = kwargs.pop("output_path", "outputs/tfidf.pkl")
+    # using pop instead of get so other args can be passed e.g. to vectorizer eventually
+
     tfidf = TfidfVectorizer()
     features = tfidf.fit_transform(data.message)
-    # TODO: Make output configurable?
-    with open("outputs/tfidf.pkl", "wb") as file:
+    with open(output_path, "wb") as file:
         pickle.dump(tfidf, file, protocol=5)
     return features
+
+
+def encode_dataset(data_path: dict) -> dict:
+    """
+    Encodes the dataset by applying label encoding and feature encoding.
+
+    Parameters:
+    data_path (dict): The input dataset containing the text features.
+
+    Returns:
+    dict: The encoded dataset with labels and features.
+        {"labels": np.ndarray, "features": scipy.sparse.csr.csr_matrix}
+    """
+    data = pd.read_csv(data_path.get("processed", "data/processed/cleaned_spam.csv"))
+    encoded_labels = encode_labels(data)
+    encoded_features = encode_features(data)
+
+    embedded = {"labels": encoded_labels, "features": encoded_features}
+    path = "outputs/embedded.pkl"
+    with open(path, "wb") as file:
+        pickle.dump(embedded, file)
+    return {"embedded": path}

@@ -19,10 +19,14 @@ def train_pipeline(data: pd.DataFrame, **kwargs) -> dict:
     Returns:
     dict: A dictionary containing evaluation metrics.
     """
-    # Step 1: Preprocess the data
-    preprocessed_data = preprocess_data(data)
+    # load and preprocess
+    data_path = load_spam_data()
+    data_path = preprocess_data(data_path)
 
     # Step 2: Encode features and labels
+    data_file = data_path.get("processed", "data/processed/cleaned_spam.csv")
+    preprocessed_data = pd.read_csv(data_file)
+
     X = encode_features(preprocessed_data)
     y = encode_labels(preprocessed_data)
 

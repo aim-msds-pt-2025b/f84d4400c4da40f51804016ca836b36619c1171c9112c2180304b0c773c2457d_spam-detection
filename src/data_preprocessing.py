@@ -5,21 +5,24 @@ import string  # builtin string module
 stopword_list = stopwords.words("english")
 
 
-def load_spam_data() -> pd.DataFrame:
+def load_spam_data(**kwargs) -> dict:
     """
-    Loads the spam dataset from a CSV file.
+    Loads and dumps spam data to standard pandas CSV format
 
     Parameters:
     file_path (str): The path to the CSV file containing the spam data.
 
     Returns:
-    pd.DataFrame: The loaded dataset as a pandas DataFrame.
+    dict: {"processed": /path/to/processed/data.csv}.
     """
+    # TODO: make this configurable via kwargs
     data = pd.read_csv("data/raw/spam.csv", encoding="latin-1")
     data = data.dropna(how="any", axis=1)
     data.columns = ["target", "message"]
-    data.to_csv("data/processed/spam.csv", index=False)
-    return data
+
+    loaded_path = "data/processed/spam.csv"
+    data.to_csv(loaded_path, index=False)
+    return {"loaded": loaded_path}
 
 
 def clean_message(text: str) -> str:
@@ -40,16 +43,21 @@ def clean_message(text: str) -> str:
     return text
 
 
-def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
+def preprocess_data(data: dict) -> dict:
     """
-    Preprocesses the input dataset by cleaning the text messages.
+    cleaning text messages in input dataset.
 
     Parameters:
-    data (DataFrame): The input dataset containing the text messages.
+    data (dict): {'loaded': /path/to/input/data}
+        Expects loadable with plain `pd.read_csv`
 
     Returns:
-    DataFrame: The preprocessed dataset with cleaned text messages.
+    dict: preprocessed dataset with cleaned text messages.
     """
+    data = pd.read_csv(data["loaded"])
+
     data.loc[:, "message"] = data["message"].apply(clean_message)
-    # TODO: Dump preprocessed data to a file, needs to adapt to file name
-    return data
+
+    processed_path = "data/processed/cleaned_spam.csv"
+    data.to_csv(processed_path, index=False)
+    return {"processed": processed_path}
