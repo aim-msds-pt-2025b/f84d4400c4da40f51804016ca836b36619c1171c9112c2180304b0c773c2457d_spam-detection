@@ -57,7 +57,7 @@ def train_model(data_paths: dict, model_args: dict) -> dict:
     Returns:
     dict: Path to trained model files.
     """
-    embedded_path = data_paths.get("embedded", "outputs/embedded.pkl")
+    embedded_path = data_paths.get("train", "outputs/train.pkl")
     with open(embedded_path, "rb") as embedded_file:
         embedded = pickle.load(embedded_file)
 
