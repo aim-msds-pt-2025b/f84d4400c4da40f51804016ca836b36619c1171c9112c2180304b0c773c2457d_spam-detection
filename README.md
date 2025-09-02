@@ -81,6 +81,10 @@ Currently the Airflow setup is mostly a smoke test to validate that the Airflow 
 
 More work is required to refactor the pipeline in such a way as to not require passing Python objects in memory between tasks/phases--the implementation choices made previously do not fit well with Airflow's DAG model. I think the goal is to have tasks write artifacts to the disk and return paths pointing at those artifacts for use by other tasks. This means more I/O overhead but will allow tasks to be separated cleanly. 
 
+#### Airflow 3.x
+
+Migrating to Airflow 3.x was painful. To be fair, this guide [here](https://airflow.apache.org/docs/apache-airflow/stable/installation/upgrading_to_airflow3.html) provided some information, but it really was not enough. Trying to figure out why the previous docker-compose configuration wasn't working required parsing through logs matching commands to outputs, only to realize the `airflow version` command was somehow also invoking `airflow db migrate` and the user creation process (when yet another poorly documented setting was set correctly). 
+
 ### Inferencing
 
 There are two options for inferencing: the CLI and the deployment. The CLI expects a file path as an input, with each line corresponding to a message. The script will print the outputs unless a path is passed to the output option. Use `-h` to view a help message. The deployment creates a server with a REST API interface using `flask`. I've not rebuilt the image, but the old one can be found [here](https://hub.docker.com/r/doyoung04/spam-detection/). Creating a container with this Docker image will start the server automatically. 
