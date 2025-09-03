@@ -6,11 +6,12 @@ x-airflow-common:
   environment:
     &airflow-common-env
     AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
-    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "true"
     AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
-    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: false
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: true  # paused while debugging
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql://airflow:airflow@postgres:5432/airflow"
     AIRFLOW__API__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+    # AIRFLOW__LOGGING__LOGGING_LEVEL: "DEBUG"
   volumes:
     - ./airflow/dags:/opt/airflow/dags
     - ./src:/opt/airflow/src
